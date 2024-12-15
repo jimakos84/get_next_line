@@ -28,7 +28,7 @@ char	*ft_strdup(char *src)
 	size_t	i;
 
 	i = ft_strlen(src);
-	dup = (char *)malloc(i * sizeof(char) + 1);
+	dup = malloc(i * sizeof(char) + 1);
 	if (!dup)
 		return (NULL);
 	while (*src)
@@ -95,6 +95,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		join[ft_strlen(s1) + i] = s2[i];
 		i++;
 	}
-//	join[ft_strlen(s1) + i] = '\0';
+	//join[ft_strlen(s1) + i] = '\0';
 	return (join);
 }

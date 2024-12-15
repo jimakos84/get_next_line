@@ -16,11 +16,15 @@
 
 int     main(void)
 {
-	int	i = 5;
+	int	i = 11;
 	int     fd;
+	char	*line;
+	
 	fd = open("bangers.txt", O_RDWR);
 	while (i--)
-		printf("%s", get_next_line(fd));
-
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+	}
 	return (0);
 }
