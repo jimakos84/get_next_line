@@ -32,7 +32,6 @@ char	*leftovers_func(char *line)
 	int		mem_for_leftovers;
 	int		clean_line_index;
 
-
 	clean_line_index = check_for_newline(line);
 	mem_for_leftovers = ft_strlen(line) - clean_line_index;
 	leftovers = malloc(mem_for_leftovers + 1);
@@ -52,27 +51,25 @@ char	*return_clean_newline(char *dirty_line)
 
 char	*get_newline(int fd, char *left_overs)
 {
-	static char	*stash;
+	char		*stash;
 	char		*found_newline;
 	int			bytesread;
 
 	stash = malloc(BUFFER_SIZE + 1);
-	if (stash == NULL)
+	if (!stash)
 		return (NULL);
 	found_newline = ft_strdup(left_overs);
 	bytesread = 1;
-	while (1)
-	{
-		if (!check_for_newline(found_newline))
-			bytesread = read(fd, stash, BUFFER_SIZE);
+	while (!check_for_newline(found_newline))
+	{	
+		bytesread = read(fd, stash, BUFFER_SIZE);
 		if (bytesread <= 0)
 		{
 			free(stash);
 			return (NULL);
 		}
+		
 		found_newline = ft_strjoin(found_newline, stash);
-		if (check_for_newline(found_newline))
-			break ;
 	}
 	free(stash);
 	return (found_newline);
@@ -84,6 +81,8 @@ char	*get_next_line(int fd)
 	char	*clean_line;
 	static char	*left_overs;
 	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	if (left_overs == NULL)
 		left_overs = ft_strdup("");
 	line = get_newline(fd, left_overs);

@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (str[i])
+	while(str[i])
 		i++;
 	return (i);
 }
@@ -64,7 +64,7 @@ char	*ft_strchr(const char *s, int c)
 
 	ch = (char) c;
 	i = 0;
-	while (s[i] != 0 || s[i] != '\n')
+	while (s[i] != '\0')
 	{
 		if (s[i] == ch)
 			return ((char *) &s[i + 1]);
