@@ -6,14 +6,14 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 11:46:37 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/13 19:40:52 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:20:00 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-int	check_for_newline(char *buffer)
+static int	check_for_newline(char *buffer)
 {
 	int	i;
 
@@ -26,67 +26,39 @@ int	check_for_newline(char *buffer)
 	}
 	return (0);
 }
-char	*leftovers_func(char *line)
+
+static char	*get_newline(int fd, char *left_overs)
 {
-	char	*leftovers;	
-	int		mem_for_leftovers;
-	int		clean_line_index;
+	static char		stash[BUFFER_SIZE + 1];
+	char			*found_newline;
+	int				bytesread;
 
-	clean_line_index = check_for_newline(line);
-	mem_for_leftovers = ft_strlen(line) - clean_line_index;
-	leftovers = malloc(mem_for_leftovers + 1);
-	leftovers = ft_strchr(line, '\n');
-	return (leftovers);
-}
-
-char	*return_clean_newline(char *dirty_line)
-{
-	char	*clean_newline;
-	int		clean_line_index;
-
-	clean_line_index = check_for_newline(dirty_line);
-	clean_newline = ft_substr(dirty_line, 0, clean_line_index);
-	return (clean_newline);
-}
-
-char	*get_newline(int fd, char *left_overs)
-{
-	char		*stash;
-	char		*found_newline;
-	int			bytesread;
-
-	stash = malloc(BUFFER_SIZE + 1);
-	if (!stash)
-		return (NULL);
-	found_newline = ft_strdup(left_overs);
+	found_newline = left_overs;
 	bytesread = 1;
-	while (!check_for_newline(found_newline))
+	while (!check_for_newline(found_newline) && bytesread > 0)
 	{	
 		bytesread = read(fd, stash, BUFFER_SIZE);
 		if (bytesread <= 0)
-		{
-			free(stash);
 			return (NULL);
-		}
-		
 		found_newline = ft_strjoin(found_newline, stash);
 	}
-	free(stash);
 	return (found_newline);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*line;
-	char	*clean_line;
+	char		*line;
+	char		*clean_line;
 	static char	*left_overs;
+	int			clean_line_index;
 	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (left_overs == NULL)
-		left_overs = ft_strdup("");
+		left_overs = "";	
 	line = get_newline(fd, left_overs);
-	clean_line = return_clean_newline(line);
-	left_overs = leftovers_func(line);
+	clean_line_index = check_for_newline(line);
+	clean_line = ft_substr(line, 0, clean_line_index);
+	left_overs = &line[clean_line_index + 1];
 	return (clean_line);
 }

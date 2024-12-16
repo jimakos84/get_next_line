@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:23:11 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/13 15:27:42 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/16 10:49:02 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*get_next_line(int fd);
 char	*ft_strdup(char *src);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strchr(const char *s, int c);
 
 #endif

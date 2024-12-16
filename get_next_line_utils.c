@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:26:53 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/13 19:01:51 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:22:16 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	unsigned int	i;
-	char			ch;
-
-	ch = (char) c;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == ch)
-			return ((char *) &s[i + 1]);
-		i++;
-	}
-	return (NULL);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*join;
@@ -95,6 +79,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		join[ft_strlen(s1) + i] = s2[i];
 		i++;
 	}
-	//join[ft_strlen(s1) + i] = '\0';
+	join[ft_strlen(s1) + i] = '\0';
 	return (join);
 }
