@@ -33,6 +33,7 @@ char	*ft_strdup(char *src)
 		return (NULL);
 	while (*src)
 		*dup++ = *src++;
+	*dup = '\0';
 	return (dup - i);
 }
 
@@ -53,7 +54,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = ft_strlen(s) - start;
 	while (len-- && *s)
 		sub[i++] = s[start++];
-	sub[i] = '\n';
+	sub[i] = '\0';
 	return (sub);
 }
 
