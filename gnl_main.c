@@ -16,24 +16,22 @@
 
 int main(void)
 {
-    int     i;
-    int     fd;
-    char    *line;
-
-    i = 11;
-    fd = open("bangers.txt", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Error opening file");
-        return (1);
-    }
-
-    while (i-- && (line = get_next_line(fd)) != NULL)
-    {
-        printf("%s", line);
-        free(line); // Free the allocated memory for each line
-    }
-
-    close(fd);
-    return (0);
+	int	i;
+	int	fd;
+	char    *line;
+	
+	i = 11;
+	fd = open("bangers.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	while (i-- && (line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
 }

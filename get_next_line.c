@@ -29,10 +29,10 @@ static int	check_for_newline(char *buffer)
 
 static char *get_newline(int fd, char *left_overs)
 {
-	static char stash[BUFFER_SIZE + 1];
-	char *found_newline;
-	char *temp;
-	int bytesread;
+	static char	stash[BUFFER_SIZE + 1];
+	char	*found_newline;
+	char	*temp;
+	int	bytesread;
 
 	found_newline = ft_strdup(left_overs);  // Create a copy
 	if (!found_newline)
@@ -58,11 +58,11 @@ static char *get_newline(int fd, char *left_overs)
 
 char *get_next_line(int fd)
 {
-	char *line;
-	char *clean_line;
-	static char *left_overs;
-	int clean_line_index;
-	char  *temp;
+	char		*line;
+	char		*clean_line;
+	static char	*left_overs;
+	int		clean_line_index;
+	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
