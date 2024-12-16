@@ -34,7 +34,7 @@ static char *get_newline(int fd, char *left_overs)
 	char	*temp;
 	int	bytesread;
 
-	found_newline = ft_strdup(left_overs);  // Create a copy
+	found_newline = ft_strdup(left_overs);
 	if (!found_newline)
 		return (NULL);
 	bytesread = 1;
