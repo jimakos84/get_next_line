@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 11:46:37 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/16 18:43:43 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:19:01 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	check_for_newline(char *buffer)
 	return (0);
 }
 
-static char *get_newline(int fd, char *left_overs)
+static char	*get_newline(int fd, char *left_overs)
 {
 	static char	stash[BUFFER_SIZE + 1];
-	char	*found_newline;
-	char	*temp;
-	int	bytesread;
+	char		*found_newline;
+	char		*temp;
+	int			bytesread;
 
 	found_newline = ft_strdup(left_overs);
 	if (!found_newline)
@@ -41,27 +41,27 @@ static char *get_newline(int fd, char *left_overs)
 	while (!check_for_newline(found_newline) && bytesread > 0)
 	{
 		bytesread = read(fd, stash, BUFFER_SIZE);
-	if (bytesread <= 0)
-	{
+		if (bytesread <= 0)
+		{
+			free(found_newline);
+			return (NULL);
+		}
+		stash[bytesread] = '\0';
+		temp = ft_strjoin(found_newline, stash);
 		free(found_newline);
-		return (NULL);
-	}
-	stash[bytesread] = '\0';
-	temp = ft_strjoin(found_newline, stash);
-	free(found_newline);
-	found_newline = temp;
-	if (!found_newline)
-		return (NULL);
+		found_newline = temp;
+		if (!found_newline)
+			return (NULL);
 	}
 	return (found_newline);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*clean_line;
 	static char	*left_overs;
-	int		clean_line_index;
+	int			clean_line_index;
 	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -79,8 +79,8 @@ char *get_next_line(int fd)
 	}
 	clean_line_index = check_for_newline(line);
 	clean_line = ft_substr(line, 0, clean_line_index + 1);
-	free(left_overs); 
+	free(left_overs);
 	left_overs = ft_strdup(&line[clean_line_index + 1]);
-	free(line); 
+	free(line);
 	return (clean_line);
 }
