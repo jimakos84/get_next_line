@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:22:23 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/17 10:26:23 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:12:27 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	int		fd;
 	char	*line;
 
-	fd = open("bangers.txt", O_RDONLY);
+	fd = open("41_no_nl", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error opening file");

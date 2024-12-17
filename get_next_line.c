@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 11:46:37 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/17 10:19:01 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:14:47 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ static int	check_for_newline(char *buffer)
 	int	i;
 
 	i = 0;
+	if (!buffer)
+		return (-1);
 	while (buffer[i])
 	{
+		if (buffer[i] == '\0' && i == 0)
+			return (1);
+		if (buffer[i] == '\n' && i == 0)
+			return (1);
 		if (buffer[i] == '\n' || buffer[i] == '\0')
-			return (i);
+			break ;
 		i++;
 	}
-	return (0);
+	return (i);
 }
 
 static char	*get_newline(int fd, char *left_overs)
@@ -78,9 +84,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	clean_line_index = check_for_newline(line);
-	clean_line = ft_substr(line, 0, clean_line_index + 1);
+	clean_line = ft_substr(line, 0, clean_line_index);
 	free(left_overs);
-	left_overs = ft_strdup(&line[clean_line_index + 1]);
+	left_overs = ft_strdup(&line[clean_line_index]);
 	free(line);
 	return (clean_line);
 }
