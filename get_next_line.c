@@ -6,7 +6,7 @@
 /*   By: dvlachos <dvlachos@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 11:46:37 by dvlachos          #+#    #+#             */
-/*   Updated: 2024/12/17 16:14:47 by dvlachos         ###   ########.fr       */
+/*   Updated: 2024/12/19 20:30:57 by dvlachos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ static int	check_for_newline(char *buffer)
 		return (-1);
 	while (buffer[i])
 	{
-		if (buffer[i] == '\0' && i == 0)
-			return (1);
 		if (buffer[i] == '\n' && i == 0)
 			return (1);
 		if (buffer[i] == '\n' || buffer[i] == '\0')
-			break ;
+			return (i);
 		i++;
 	}
-	return (i);
+	return (0);
 }
 
 static char	*get_newline(int fd, char *left_overs)
@@ -47,7 +45,7 @@ static char	*get_newline(int fd, char *left_overs)
 	while (!check_for_newline(found_newline) && bytesread > 0)
 	{
 		bytesread = read(fd, stash, BUFFER_SIZE);
-		if (bytesread <= 0)
+		if (bytesread < 0)
 		{
 			free(found_newline);
 			return (NULL);
@@ -83,7 +81,7 @@ char	*get_next_line(int fd)
 		left_overs = NULL;
 		return (NULL);
 	}
-	clean_line_index = check_for_newline(line);
+	clean_line_index = check_for_newline(line) + 1;
 	clean_line = ft_substr(line, 0, clean_line_index);
 	free(left_overs);
 	left_overs = ft_strdup(&line[clean_line_index]);
