@@ -18,15 +18,18 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
+	int	i;
 
-	fd = open("41_no_nl", O_RDONLY);
+	i = 3;
+	fd = open("41_with_nl", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error opening file");
 		return (1);
 	}
-	while ((line = get_next_line(fd)) != NULL)
+	while (i--)
 	{
+		line = get_next_line(fd);
 		printf("%s", line);
 		free(line);
 	}

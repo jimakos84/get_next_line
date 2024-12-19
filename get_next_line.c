@@ -22,15 +22,15 @@ static int	check_for_newline(char *buffer)
 		return (-1);
 	while (buffer[i])
 	{
-		if (buffer[i] == '\0' && i == 0)
-			return (1);
-		if (buffer[i] == '\n' && i == 0)
-			return (1);
-		if (buffer[i] == '\n' || buffer[i] == '\0')
-			break ;
+		if (buffer[i] == '\n')
+		{
+			if (i == 0)
+				return (1);
+			return (i);
+		}
 		i++;
 	}
-	return (i);
+	return (-1);
 }
 
 static char	*get_newline(int fd, char *left_overs)
@@ -44,10 +44,10 @@ static char	*get_newline(int fd, char *left_overs)
 	if (!found_newline)
 		return (NULL);
 	bytesread = 1;
-	while (!check_for_newline(found_newline) && bytesread > 0)
+	while (check_for_newline(found_newline) == -1 && bytesread > 0)
 	{
 		bytesread = read(fd, stash, BUFFER_SIZE);
-		if (bytesread <= 0)
+		if (bytesread < 0)
 		{
 			free(found_newline);
 			return (NULL);
@@ -58,6 +58,7 @@ static char	*get_newline(int fd, char *left_overs)
 		found_newline = temp;
 		if (!found_newline)
 			return (NULL);
+
 	}
 	return (found_newline);
 }
