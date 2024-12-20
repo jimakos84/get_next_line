@@ -20,8 +20,8 @@ int	main(void)
 	char	*line;
 	int	i;
 
-	i = 3;
-	fd = open("41_with_nl", O_RDONLY);
+	i = 15;
+	fd = open("bangers.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error opening file");

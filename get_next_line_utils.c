@@ -39,30 +39,6 @@ char	*ft_strdup(char *src)
 	return (dup - i);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*sub;
-	unsigned int	i;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	sub = malloc(len + 1);
-	if (sub == NULL)
-	{	
-		sub = NULL;
-		return (NULL);
-	}
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) || len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	while (len-- && *s)
-		sub[i++] = s[start++];
-	sub[i] = '\0';
-	return (sub);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*join;
@@ -87,4 +63,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	join[ft_strlen(s1) + i] = '\0';
 	return (join);
+}
+
+char    *ft_strchr(const char *s, int c)
+{
+        unsigned int    i;
+        char                    ch;
+
+        ch = (char) c;
+        i = 0;
+        while (s[i])
+        {
+                if (s[i] == ch)
+                        return ((char *) &s[i]);
+                i++;
+        }
+        if (s[i] == ch)
+                return ((char *) &s[i]);
+        return (NULL);
 }

@@ -11,26 +11,60 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-static int	check_for_newline(char *buffer)
+static char    *new_leftovers(char *left_overs)
 {
-	int	i;
+        int             i;
+        int             j;
+        char    *new_left;
 
-	i = 0;
-	if (!buffer)
-		return (-1);
-	while (buffer[i])
-	{
-		if (buffer[i] == '\n')
-		{
-			if (i == 0)
-				return (1);
-			return (i);
-		}
-		i++;
-	}
-	return (-1);
+        i = 0;
+        while (left_overs[i] && left_overs[i] != '\n')
+                i++;
+        if (!left_overs[i])
+        {
+                free(left_overs);
+                return (NULL);
+        }
+        new_left = (char *)malloc(sizeof(char) * (ft_strlen(left_overs) - i + 1));
+        if (!new_left)
+                return (NULL);
+        i++;
+        j = 0;
+        while (left_overs[i])
+                new_left[j++] = left_overs[i++];
+        new_left[j] = '\0';
+        free(left_overs);
+        return (new_left);
+}
+
+
+static char    *clean_line_func(char *found_newline)
+{
+        int             i;
+        char    *str;
+
+        i = 0;
+        if (!found_newline[i])
+                return (NULL);
+        while (found_newline[i] && found_newline[i] != '\n')
+                i++;
+        str = (char *)malloc(sizeof(char) * (i + 2));
+        if (!str)
+                return (NULL);
+        i = 0;
+        while (found_newline[i] && found_newline[i] != '\n')
+        {
+                str[i] = found_newline[i];
+                i++;
+        }
+        if (found_newline[i] == '\n')
+        {
+                str[i] = found_newline[i];
+                i++;
+        }
+        str[i] = '\0';
+        return (str);
 }
 
 static char	*get_newline(int fd, char *left_overs)
@@ -44,7 +78,7 @@ static char	*get_newline(int fd, char *left_overs)
 	if (!found_newline)
 		return (NULL);
 	bytesread = 1;
-	while (check_for_newline(found_newline) == -1 && bytesread > 0)
+	while (!ft_strchr(found_newline, '\n') && bytesread > 0)
 	{
 		bytesread = read(fd, stash, BUFFER_SIZE);
 		if (bytesread < 0)
@@ -68,7 +102,6 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*clean_line;
 	static char	*left_overs;
-	int			clean_line_index;
 	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -84,10 +117,8 @@ char	*get_next_line(int fd)
 		left_overs = NULL;
 		return (NULL);
 	}
-	clean_line_index = check_for_newline(line);
-	clean_line = ft_substr(line, 0, clean_line_index);
+	clean_line = clean_line_func(line);
 	free(left_overs);
-	left_overs = ft_strdup(&line[clean_line_index]);
-	free(line);
+	left_overs = new_leftovers(line);
 	return (clean_line);
 }
